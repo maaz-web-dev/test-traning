@@ -2,6 +2,7 @@ import './App.css';
 import React, { useEffect, useState } from 'react';
 import TrainingCountDisplay from './components/TrainingCountDisplay';
 import FiscalYearTraining from './components/FiscalYearTraining';
+import ExpiringTrainings from './components/ExpiringTrainings'; 
 
 function App() {
   const [trainingData, setTrainingData] = useState([]);
@@ -28,17 +29,24 @@ function App() {
   const specifiedTrainings = ["Electrical Safety for Labs", "X-Ray Safety", "Laboratory Safety Training"];
   const fiscalYearStart = new Date('2023-07-01');
   const fiscalYearEnd = new Date('2024-06-30');
+  
+  // Define the specified date for expiring trainings
+  const specifiedDate = new Date('2023-10-01');
 
   return (
     <div className="App">
       <TrainingCountDisplay trainingData={trainingData} />
-
-      {/* Include the FiscalYearTraining component */}
       <FiscalYearTraining 
         trainingData={trainingData} 
         trainings={specifiedTrainings} 
         fiscalYearStart={fiscalYearStart} 
         fiscalYearEnd={fiscalYearEnd} 
+      />
+      
+      {/* Include the ExpiringTrainings component */}
+      <ExpiringTrainings 
+        trainingData={trainingData} 
+        specifiedDate={specifiedDate} 
       />
     </div>
   );
