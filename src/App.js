@@ -1,23 +1,30 @@
-import logo from './logo.svg';
+
 import './App.css';
+import UserTable from './components/UserTable';
+import React, { useEffect, useState } from 'react';
+import TrainingCountDisplay from './components/TrainingCountDisplay';
 
 function App() {
+  
+  const [trainingData, setTrainingData] = useState([]);
+
+  useEffect(() => {
+    fetch('/trainings.json')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => setTrainingData(data))
+      .catch((error) => {
+        console.error('There has been a problem with your fetch operation:', error);
+      });
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <TrainingCountDisplay trainingData={trainingData} />
     </div>
   );
 }
