@@ -24,7 +24,7 @@ function FiscalYearTraining({ trainingData, trainings, fiscalYearStart, fiscalYe
 
   return (
     <div>
-      <h2>Trainings in Fiscal Year</h2>
+     
       <table>
         <thead>
           <tr>

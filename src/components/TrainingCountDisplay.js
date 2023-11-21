@@ -1,11 +1,54 @@
-import React from 'react';
+// import React from 'react';
+
+// function TrainingCountDisplay({ trainingData }) {
+//   function countTrainings(data) {
+//     const trainingCounts = {};
+//     data.forEach(person => {
+//       person.completions.forEach(training => {
+//         trainingCounts[training.name] = (trainingCounts[training.name] || 0) + 1;
+//       });
+//     });
+//     return trainingCounts;
+//   }
+
+//   const trainingCounts = countTrainings(trainingData);
+
+//   return (
+//     <div>
+
+//       <table>
+//         <thead>
+//           <tr>
+//             <th>Training</th>
+//             <th>Count</th>
+//           </tr>
+//         </thead>
+//         <tbody>
+//           {Object.entries(trainingCounts).map(([training, count]) => (
+//             <tr key={training}>
+//               <td>{training}</td>
+//               <td>{count}</td>
+//             </tr>
+//           ))}
+//         </tbody>
+//       </table>
+//     </div>
+//   );
+// }
+
+// export default TrainingCountDisplay;
+import React, { useState } from "react";
 
 function TrainingCountDisplay({ trainingData }) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12;
+
   function countTrainings(data) {
     const trainingCounts = {};
-    data.forEach(person => {
-      person.completions.forEach(training => {
-        trainingCounts[training.name] = (trainingCounts[training.name] || 0) + 1;
+    data.forEach((person) => {
+      person.completions.forEach((training) => {
+        trainingCounts[training.name] =
+          (trainingCounts[training.name] || 0) + 1;
       });
     });
     return trainingCounts;
@@ -13,9 +56,34 @@ function TrainingCountDisplay({ trainingData }) {
 
   const trainingCounts = countTrainings(trainingData);
 
+  // Calculate the total number of pages
+  const totalTrainingCount = Object.keys(trainingCounts).length;
+  const totalPages = Math.ceil(totalTrainingCount / itemsPerPage);
+
+  // Calculate the index range for the current page
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = currentPage * itemsPerPage;
+
+  // Get the training entries for the current page
+  const trainingEntries = Object.entries(trainingCounts).slice(
+    startIndex,
+    endIndex
+  );
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
   return (
     <div>
-      <h1>Training Counts</h1>
       <table>
         <thead>
           <tr>
@@ -24,13 +92,35 @@ function TrainingCountDisplay({ trainingData }) {
           </tr>
         </thead>
         <tbody>
-          {Object.entries(trainingCounts).map(([training, count]) => (
+          {trainingEntries.map(([training, count]) => (
             <tr key={training}>
               <td>{training}</td>
               <td>{count}</td>
             </tr>
           ))}
         </tbody>
+        <div className="pagination">
+          <button
+            className="pagination-button"
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
+          >
+            &lt; Previous
+          </button>
+          <span className="page-count">
+            {`Showing ${startIndex + 1}-${Math.min(
+              endIndex,
+              totalTrainingCount
+            )} of ${totalTrainingCount}`}
+          </span>
+          <button
+            className="pagination-button"
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+          >
+            Next &gt;
+          </button>
+        </div>
       </table>
     </div>
   );

@@ -59,6 +59,36 @@ tbody tr:hover {
   margin: 0 10px;
   color: #333;
 }
+/* CSS for navigation buttons or tabs */
+.navigation {
+  display: flex;
+  justify-content: center;
+  background-color: #007bff; /* Background color for the navigation bar */
+  padding: 20px 0;
+}
+
+.navigation button {
+  background-color: transparent;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 10px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.navigation button:hover {
+  background-color: #0056b3; /* Background color on hover */
+  border-radius: 5px;
+}
+
+/* Style for the active button */
+.navigation button.active {
+  background-color: #0056b3; /* Background color for the active button */
+  border-radius: 5px;
+}
+
 @media (max-width: 600px) {
   th, td {
     padding: 12px 18px;

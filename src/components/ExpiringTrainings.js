@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 function ExpiringTrainings({ trainingData, specifiedDate }) {
-  const itemsPerPage = 20; // Number of items to display per page
+  const itemsPerPage = 12; // Number of items to display per page
   const [currentPage, setCurrentPage] = useState(1);
 
   const getExpiringTrainings = () => {
@@ -60,7 +60,7 @@ function ExpiringTrainings({ trainingData, specifiedDate }) {
 
   return (
     <div>
-      <h2>Expiring Trainings</h2>
+      
       <table>
         <thead>
           <tr>
@@ -78,9 +78,7 @@ function ExpiringTrainings({ trainingData, specifiedDate }) {
             </tr>
           ))}
         </tbody>
-      </table>
-
-      <div className="pagination">
+        <div className="pagination">
       <button
         className="pagination-button"
         onClick={handlePreviousPage}
@@ -102,6 +100,9 @@ function ExpiringTrainings({ trainingData, specifiedDate }) {
         Next &gt;
       </button>
     </div>
+      </table>
+
+      
   </div>
   );
 }
