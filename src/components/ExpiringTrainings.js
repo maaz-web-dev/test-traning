@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 
 function ExpiringTrainings({ trainingData, specifiedDate }) {
   const itemsPerPage = 12; // Number of items to display per page
@@ -58,10 +58,27 @@ function ExpiringTrainings({ trainingData, specifiedDate }) {
     }
   };
 
+  const downloadJSON = () => {
+    const dataToDownload = JSON.stringify(expiringTrainings, null, 2);
+    const blob = new Blob([dataToDownload], { type: 'application/json' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'expiringTrainings.json';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
+
+  // Automatically trigger the download on component load
+  useEffect(() => {
+    downloadJSON();
+  }, []);
+
   return (
     <div>
       
       <table>
+      
         <thead>
           <tr>
             <th>Person Name</th>

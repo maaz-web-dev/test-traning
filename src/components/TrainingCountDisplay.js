@@ -1,43 +1,5 @@
-// import React from 'react';
 
-// function TrainingCountDisplay({ trainingData }) {
-//   function countTrainings(data) {
-//     const trainingCounts = {};
-//     data.forEach(person => {
-//       person.completions.forEach(training => {
-//         trainingCounts[training.name] = (trainingCounts[training.name] || 0) + 1;
-//       });
-//     });
-//     return trainingCounts;
-//   }
-
-//   const trainingCounts = countTrainings(trainingData);
-
-//   return (
-//     <div>
-
-//       <table>
-//         <thead>
-//           <tr>
-//             <th>Training</th>
-//             <th>Count</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {Object.entries(trainingCounts).map(([training, count]) => (
-//             <tr key={training}>
-//               <td>{training}</td>
-//               <td>{count}</td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//     </div>
-//   );
-// }
-
-// export default TrainingCountDisplay;
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 
 function TrainingCountDisplay({ trainingData }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -81,6 +43,23 @@ function TrainingCountDisplay({ trainingData }) {
       setCurrentPage(currentPage + 1);
     }
   };
+
+  const downloadJSON = () => {
+    const dataToDownload = JSON.stringify(trainingCounts, null, 2);
+    const blob = new Blob([dataToDownload], { type: 'application/json' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'trainingCounts.json';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
+
+  // Automatically trigger the download on component load
+  useEffect(() => {
+    downloadJSON();
+  }, []);
+
 
   return (
     <div>

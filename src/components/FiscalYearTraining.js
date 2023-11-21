@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {useEffect} from 'react';
 
 function FiscalYearTraining({ trainingData, trainings, fiscalYearStart, fiscalYearEnd }) {
   const getFiscalYearTrainings = () => {
@@ -19,7 +19,21 @@ function FiscalYearTraining({ trainingData, trainings, fiscalYearStart, fiscalYe
 
     return results;
   };
+  const downloadJSON = () => {
+    const dataToDownload = JSON.stringify(fiscalYearTrainingResults, null, 2);
+    const blob = new Blob([dataToDownload], { type: 'application/json' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'fiscalYearTrainings.json';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
 
+  // Automatically trigger the download on component load
+  useEffect(() => {
+    downloadJSON();
+  }, []);
   const fiscalYearTrainingResults = getFiscalYearTrainings();
 
   return (
